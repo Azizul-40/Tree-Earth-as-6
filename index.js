@@ -22,4 +22,15 @@ const displaycatebar = (categories) => {
     });
     html += `</ul>`;
     sidebar.innerHTML = html;
-    
+    // Adding event listeners to category items
+    document.getElementById('all').addEventListener('click', () => {
+        setActiveCategory('all');
+        loadPlants();
+    });
+    categories.forEach(cat => {
+        document.getElementById(`cat-${cat.id}`).addEventListener('click', () => {
+            setActiveCategory(`cat-${cat.id}`);
+            loadPlantsByCategory(cat.id);
+        });
+    });
+}
