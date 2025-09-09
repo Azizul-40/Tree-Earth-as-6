@@ -99,3 +99,45 @@ const displayPlants = (plants) => {
     
     productGrid.innerHTML = html;
 }
+
+const addToCard = (id, name, price) => {
+    const showCardSec = document.getElementById("add-to-card");
+    const totalPriceElement = document.getElementById("total-price");
+    
+    // Create a new cart item
+    const newDiv = document.createElement('div');
+    newDiv.className = 'flex justify-between items-center bg-green-100 p-2 rounded mb-2';
+    newDiv.id = `cart-item-${id}`;
+    newDiv.innerHTML = `
+        <span>${name}</span>
+        <span onclick="removeFromCard('cart-item-${id}', ${price})" class="cursor-pointer text-red-500 hover:text-red-700">❌</span>
+        <span>৳${price}</span>   
+    `;
+    
+    // Add to cart
+    showCardSec.appendChild(newDiv);
+    
+    // Update total price
+    const currentTotal = parseFloat(totalPriceElement.innerText.replace('৳', '')) || 0;
+    const newTotal = currentTotal + price;
+    totalPriceElement.innerText = `৳${newTotal}`;
+}
+
+const removeFromCard = (itemId, price) => {
+    const itemToRemove = document.getElementById(itemId);
+    const totalPriceElement = document.getElementById("total-price");
+    
+    if (itemToRemove) {
+        // Remove the item from the cart
+        itemToRemove.remove();
+        
+        // Update total price by subtracting the removed item's price
+        const currentTotal = parseFloat(totalPriceElement.innerText.replace('৳', '')) || 0;
+        const newTotal = currentTotal - price;
+        totalPriceElement.innerText = `৳${newTotal}`;
+    }
+}
+
+// Initialize the page
+loadCategory();
+loadPlants(); // Load all plants by default
